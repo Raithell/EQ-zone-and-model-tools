@@ -1,0 +1,24 @@
+2025-03-10 23:49:32 - Debug log cleared
+2025-03-10 23:49:32 - FileList: Display updated for it14000
+2025-03-10 23:49:38 - DirList: File selected: prymeblade.eqg
+2025-03-10 23:49:38 - FileList: UpdateFileList started for C:\Users\saive\Desktop\EQ Project\EQ Client\everquest_rof2\prymeblade.eqg
+2025-03-10 23:49:38 - FileList: Resetting open_dir without closing
+2025-03-10 23:49:38 - FileList: Loading directory C:\Users\saive\Desktop\EQ Project\EQ Client\everquest_rof2\prymeblade.eqg
+2025-03-10 23:49:38 - FileList: Gathering files
+2025-03-10 23:49:38 - FileList: Filtering list
+2025-03-10 23:49:38 - FileList: UpdateFileList completed
+2025-03-10 23:49:38 - DirList: File list updated for prymeblade.eqg
+2025-03-10 23:49:49 - FileList: Importing E:\Prymes Sword\bladetest.obj as it90000
+2025-03-10 23:49:49 - FileList: Writing model it90000.mod
+2025-03-10 23:49:49 - FileList: Model written, updating directory at pos 1
+2025-03-10 23:49:49 - FileList: Writing directory
+2025-03-10 23:49:49 - FileList: Directory updated successfully
+2025-03-10 23:49:50 - FileList: Pre-UpdateFileList for C:\Users\saive\Desktop\EQ Project\EQ Client\everquest_rof2\prymeblade.eqg
+2025-03-10 23:49:50 - FileList: UpdateFileList started for C:\Users\saive\Desktop\EQ Project\EQ Client\everquest_rof2\prymeblade.eqg
+2025-03-10 23:49:50 - FileList: Resetting open_dir without closing
+2025-03-10 23:49:50 - FileList: Loading directory C:\Users\saive\Desktop\EQ Project\EQ Client\everquest_rof2\prymeblade.eqg
+2025-03-10 23:49:50 - FileList: Gathering files
+2025-03-10 23:49:50 - FileList: Filtering list
+2025-03-10 23:49:50 - FileList: UpdateFileList completed
+2025-03-10 23:49:50 - FileList: Post-UpdateFileList
+2025-03-10 23:49:57 - Main: Closing directory on app exit
