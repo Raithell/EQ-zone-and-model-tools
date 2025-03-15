@@ -167,37 +167,60 @@ function obj.Import(path, dir, appending)
 	}
 end
 
---[=[
 function obj.Export(data, path, it)
-	local f = assert(io.open(path:sub(1, -4) .. "mtl", "w+"))
+    log_to_file("obj.Export: Starting export to " .. path)
+    local mtl_path = path:sub(1, -4) .. "mtl"
+    local f, err = io.open(mtl_path, "w+")
+    if not f then
+        log_to_file("obj.Export: Failed to open MTL file " .. mtl_path .. ": " .. tostring(err))
+        error_popup("Failed to open MTL file: " .. tostring(err))
+        return
+    end
+    log_to_file("obj.Export: Writing MTL to " .. mtl_path)
+    f:write("# MTL file produced by EQG Weapon Model Importer\n\n")
+    for i, mat in ipairs(data.materials) do
+        f:write("newmtl ", mat.name, "\n")
+        f:write("d 1.000000\nillum 2\n")
+        for j, prop in ipairs(mat) do
+            local name = prop.name
+            if name == "e_TextureDiffuse0" then
+                f:write("map_Kd ", prop.value, "\n")
+            elseif name == "e_TextureNormal0" then
+                f:write("map_bump ", prop.value, "\n")
+            end
+        end
+        f:write("\n")
+    end
+    f:close()
+    log_to_file("obj.Export: MTL written successfully")
 
-	f:write("# MTL file produced by EQG Weapon Model Importer\n\n")
-	for i, mat in ipairs(data.materials) do
-		f:write("newmtl ", mat.name, "\n")
-		f:write("d 1.000000\nillum 2\n")
-		for j, prop in ipairs(mat) do
-			local name = prop.name
-			if name == "e_TextureDiffuse0" then
-				f:write("map_Kd ", prop.value, "\n")
-			elseif name == "e_TextureNormal0" then
-				f:write("map_bump ", prop.value, "\n")
-			end
-			f:write("\n")
-		end
-	end
-	f:close()
+    f, err = io.open(path, "w+")
+    if not f then
+        log_to_file("obj.Export: Failed to open OBJ file " .. path .. ": " .. tostring(err))
+        error_popup("Failed to open OBJ file: " .. tostring(err))
+        return
+    end
+    log_to_file("obj.Export: Writing OBJ to " .. path)
+    f:write("# OBJ file produced by EQG Weapon Model Importer\n")
+    f:write("mtllib ", it, ".mtl\n")
+    
+    for _, vert in ipairs(data.vertices) do
+        f:write(string.format("v %.6f %.6f %.6f\n", vert.x, vert.y, vert.z))
+        f:write(string.format("vt %.6f %.6f\n", vert.u or 0, vert.v or 0))
+        f:write(string.format("vn %.6f %.6f %.6f\n", vert.i or 0, vert.j or 0, vert.k or 0))
+    end
 
-	f = assert(io.open(path, "w+"))
-	local verts = {}
-	local uvs = {}
-	local norms = {}
-
-	f:write("# OBJ file produced by EQG Weapon Model Importer\n")
-	f:write("mtllib ", it, ".mtl\n")
-	--need to figure out how best to unpack in an orderly fashion
-
-	f:close()
+    local last_group = -1
+    for _, tri in ipairs(data.triangles) do
+        if tri.group ~= last_group then
+            last_group = tri.group
+            f:write("usemtl ", data.materials[last_group + 1].name, "\n")
+        end
+        local v1, v2, v3 = tri[1] + 1, tri[2] + 1, tri[3] + 1
+        f:write(string.format("f %d/%d/%d %d/%d/%d %d/%d/%d\n", v1, v1, v1, v2, v2, v2, v3, v3, v3))
+    end
+    f:close()
+    log_to_file("obj.Export: OBJ written successfully")
 end
-]=]
 
 return obj

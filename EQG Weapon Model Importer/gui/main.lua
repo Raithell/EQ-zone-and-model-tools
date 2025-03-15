@@ -1,5 +1,6 @@
 local lfs = require "lfs"
 local eqg = require "luaeqg"
+local obj = require "gui/obj"  -- Ensure obj module is required
 
 function assert(result, msg)
     if result then return result end
@@ -61,11 +62,30 @@ end
 LoadSettings()
 LoadSettings = nil
 
+local function ExportOBJ()
+    local path = iup.filedlg{title = "Save OBJ File", dialogtype = "SAVE", filter = "*.obj", filterinfo = "OBJ Files"}
+    iup.Popup(path)
+    if path.status == "0" then
+        local export_path = path.value
+        if export_path then
+            local data = display.GetModelData()  -- Assuming a function to get the current model data
+            if data then
+                obj.Export(data, export_path, "exported_model")
+                iup.Message("Success", "Model exported successfully!")
+            else
+                error_popup("No model data available to export.")
+            end
+        end
+    end
+end
+
 local menu = iup.menu{
     iup.submenu{
         title = "&File";
         iup.menu{
             iup.item{title = "Set EQG Search Folder", action = SetSearchFolder},
+            iup.separator{},
+            iup.item{title = "Export OBJ", action = ExportOBJ},  -- New Export OBJ menu item
             iup.separator{},
             iup.item{title = "&Quit", action = function() return iup.CLOSE end},
         },
